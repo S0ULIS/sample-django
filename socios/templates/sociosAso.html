@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head lan="es">
+        <title>Socio</title>
+        <meta charset="utf-8">
+        <meta name= "viewport" content= "width=device-width , initial-scale=1 ,
+                    shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel= "stylesheet" href= "/static/docs/css/tabs.css">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src= "/static/docs/js/utils/tabs.js"> </script>
+        <script src="/static/docs/js/renderer/sociosRenderer.js" type="module"> </script>
+        <script src="/static/docs/js/utils/post-disp.js" type="module"> </script>
+    </head>
+    <body style="background-color: #FEFAE0;">
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-md-9">
+                <div id="errors"></div>
+                <div class="card bg-success mb-3">
+                    <div class="card-body">
+                        <div class="row justify-content-between" id="preUserCard">
+                        </div>
+                        <div class="container" id="userCard" style="display: none;">
+                            <div class="main-body">
+                                <div class="row gutters-sm mb-2 mt-4" id="userDetailsCard">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success mb-3 btn-lg btn-block" onclick="showDonateForm()">Realizar donación</button>
+                <script>
+                    function showDonateForm(){
+                        document.getElementById("donate-form").style.display="block";
+                    }
+                </script>
+                <script>
+                    function cancelDonation(){
+                        document.getElementById("donate-form").style.display="none";
+                        document.getElementById("aportacion").value="";
+                    }
+                </script>
+                <div class="card text-center border-dark mb-3 card bg-light mb-3" id="donate-form" style="display: none;">
+                    <form id="donateForm">
+                        <div class="card-body">
+                            <div class="form-group row mb-3">
+                                <label for="aportacion" class="col-sm-3 col-form-label"><Strong>Aportacion</Strong></label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="aportacion" id="aportacion">
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="col-sm-7">
+                                    <button type="button" id="accept-donation" class="btn btn-outline-success">Aceptar</button>
+                                    <button type="button" id="cancelDonation" class="btn btn-outline-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>    
+                    </form>
+                </div>
+                </br>
+                <button type="button" id="showCannaForm" class="btn btn-success mb-3 btn-lg btn-block">Dispensacion cannabica</button>
+                <div class="card text-center border-dark mb-3 card bg-light mb-3" style="display: none;" id="cannadisp-form">
+                    <div class="card-body">
+                        <div id="errorsDisps"></div>
+                        <div class="tab">
+                            <button class="tablinks" onclick="openCity(event, 'London')">Marihuana</button>
+                            <button class="tablinks" onclick="openCity(event, 'Paris')">Polen</button>
+                            <button class="tablinks" onclick="openCity(event, 'Tokyo')">BHO</button>
+                            <button class="tablinks" id="btn-close-tabs" style="float: right;">X</button>
+                            <!--<button class="btn-close tablinks" style="float: right; padding: 14px 16px;" aria-label="Close"></button>-->
+                        </div>
+                          
+                          <!-- Tab content -->
+                        <div id="London" class="tabcontent">
+                            <div class="form-group row mb-3 mt-3">
+                                <label for="disp1" class="col-sm-3 col-form-label" required><Strong>Dispensacion</Strong></label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="marihuana-disp" id="disp1" list="marihuana-carta">
+                                    <datalist id="marihuana-carta">
+                                        {% for variedad in variedades %}
+                                            {% if variedad.tipo == "Marihuana" %}
+                                                <option class="{{variedad.tipo}}" id="{{variedad.id}}" name="{{variedad.nombre}}">{{variedad.id}} {{variedad.nombre}} {{variedad.aportacion}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="cantidad1" class="col-sm-3 col-form-label" required><Strong>Cantidad</Strong></label>
+                                <div class="col-sm-7">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="cantidad1" id="cantidad1">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" name="uds1" id="uds1">
+                                                <option>g</option>
+                                                <option>creditos</option>
+                                            </select>
+                                        </div>      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="col-sm-7">
+                                    <button type="button" id="add1"class="btn btn-outline-success">Añadir</button>
+                                </div>
+                            </div>
+                        </div>
+                          
+                        <div id="Paris" class="tabcontent">
+                            <div class="form-group row mb-3 mt-3">
+                                <label for="disp2" class="col-sm-3 col-form-label" required><Strong>Dispensacion</Strong></label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="polen-disp" id="disp2" list="polen-carta">
+                                    <datalist id=polen-carta>
+                                        {% for variedad in variedades %}
+                                            {% if variedad.tipo == "Polen" %}
+                                                <option class="{{variedad.tipo}}" id="{{variedad.id}}" name="{{variedad.nombre}}">{{variedad.id}} {{variedad.nombre}} {{variedad.aportacion}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="cantidad2" class="col-sm-3 col-form-label" required><Strong>Cantidad</Strong></label>
+                                <div class="col-sm-7">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="cantidad2" id="cantidad2">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" name="uds2" id="uds2">
+                                                <option>g</option>
+                                                <option>creditos</option>
+                                            </select>
+                                        </div>      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="col-sm-7">
+                                    <button type="button" id="add2" class="btn btn-outline-success">Añadir</button>
+                                </div>
+                            </div>
+                        </div>
+                          
+                        <div id="Tokyo" class="tabcontent">
+                            <div class="form-group row mb-3 mt-3">
+                                <label for="disp3" class="col-sm-3 col-form-label" required><Strong>Dispensacion</Strong></label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control" name="BHO-disp" id="disp3" list="BHO-carta">
+                                    <datalist id=BHO-carta>
+                                        {% for variedad in variedades %}
+                                            {% if variedad.tipo == "BHO" %}
+                                                <option class="{{variedad.tipo}}" id="{{variedad.id}}" name="{{variedad.nombre}}">{{variedad.id}} {{variedad.nombre}} {{variedad.aportacion}}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </datalist>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="cantidad3" class="col-sm-3 col-form-label" required><Strong>Cantidad</Strong></label>
+                                <div class="col-sm-7">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" name="cantidad3" id="cantidad3">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" name="uds3" id="uds3">
+                                                <option>g</option>
+                                                <option>creditos</option>
+                                            </select>
+                                        </div>      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <div class="col-sm-7">
+                                    <button type="button" id="add3" class="btn btn-outline-success">Añadir</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card m-4" id="disp-list-card">
+                        <ul class="list-group list-group-flush" id="disp-list">
+                        </ul>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success mb-3 btn-lg btn-block" onclick="showODispForm()">Otras dispensaciones</button>
+                <script>
+                    function showODispForm(){
+                        document.getElementById("otherdisp-form").style.display="block";
+                    }
+                </script>
+                <div class="card text-center border-dark mb-3 card bg-light mb-3" id="otherdisp-form" style="display: none;">
+                    <div class="card-body">
+                        <div class="form-group row mb-3">
+                            <label for="oDisp" class="col-sm-3 col-form-label"><Strong>Dispensacion</Strong></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" name="oDisp" id="oDisp" list="carta">
+                                <datalist id=carta>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label for="u" class="col-sm-3 col-form-label"><Strong>Uds</Strong></label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="u" id="u" value="1">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-7">
+                                <button type="button" class="btn btn-outline-success">Aceptar</button>
+                                <button type="button" id ="cancelDonation" onclick="cancelODisp()" class="btn btn-outline-danger"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function cancelODisp(){
+                        document.getElementById("otherdisp-form").style.display="none";
+                        document.getElementById("oDisp").value="";
+                    }
+                </script>
+                <div class="card mb-5">
+                    <div class="lead card-header bg-success text-white"><strong>Historial</strong></div>
+                    <div class="card-body">
+                        <div style="overflow-y: scroll; height: 500px;">
+                            <ul class="list-group list-group-flush" id="histUserCard">
+                            </ul>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+    function showUserCard(){
+        document.getElementById("userCard").style.display="block";
+        //document.getElementById("preUserCard").style.display="none";
+        document.getElementById("name").style.display="none";
+        document.getElementById("+infobtn").style.display="none";
+        document.getElementById("state").style.display="none";
+    }
+
+    function closeUserCard(){
+        document.getElementById("userCard").style.display="none";
+        //document.getElementById("preUserCard").style.display="block";
+        document.getElementById("name").style.display="block";
+        document.getElementById("+infobtn").style.display="block";
+        document.getElementById("state").style.display="block";
+    }
+
+    function showEmail(){
+        document.getElementById("botones").style.display="none";
+        document.getElementById("email-area").style.display="block";
+        document.getElementById("botones2").style.display="block";
+    }
+
+    function hideEmail(){
+        document.getElementById("botones").style.display="block";
+        document.getElementById("email-area").style.display="none";
+        document.getElementById("botones2").style.display="none";
+    }
+</script>

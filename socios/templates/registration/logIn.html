@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head lan="es">
+        <title>logIn</title>
+        <meta charset="utf-8">
+        <meta name= "viewport" content= "width=device-width , initial-scale=1 ,
+                shrink-to-fit=no">
+        <link rel= "stylesheet" href= "/static/docs/css/logInAso.css">
+        <script src= "/static/docs/js/utils/logInAso.js"> </script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <form method="post" action="/login/">
+            {% csrf_token %}
+            <div id="signin">
+                <div class="form-title">Sign in</div>
+                <div class="input-field">
+                    <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+                    <i class="material-icons">person</i>
+                    <label for="id_username">Username</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="password" autocomplete="current-password" required="" id="id_password">
+                    <i class="material-icons">lock</i>
+                    <label for="id_password">Password</label>
+                </div>
+                <a href="" class="forgot-pw">Forgot Password ?</a>
+                <button type="submit" class="login" value="login">Log In </button>
+                <input type="hidden" name="next" value="{{ next }}" />
+                <div class="check">
+                    <i class="material-icons">check</i>
+                </div>
+            </div>
+        </form>
+
+        {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+            {% else %}
+            <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
+
+    </body>
+</html>

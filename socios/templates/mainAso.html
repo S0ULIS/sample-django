@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head lan="es">
+    <title>mainMenu</title>
+    <meta charset="utf-8">
+    <meta name= "viewport" content= "width=device-width , initial-scale=1 ,
+                shrink-to-fit=no">
+    <link rel= "stylesheet" href= "/static/docs/css/mainAso.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+        <div class="box-1">
+            <div class="btn btn-three" id="btn-socios">
+              <span>SOCIOS</span>
+            </div>
+          </div>
+          <script>
+            $("#btn-socios").click(()=>{
+              window.location.assign("/totalSocios")
+            });
+
+          </script>
+           
+          <!-- Hover #2 -->
+          <div class="box-2" id="btn-club">
+            <div class="btn btn-three">
+              <span>CLUB</span>
+            </div>
+          </div>
+
+          <script>
+            $("#btn-club").click(()=>{
+              window.location.assign("/estancias")
+            });
+
+          </script> 
+          
+          <!-- Hover #3 -->
+          <div class="box-3">
+            <div class="btn btn-three" id="btn-variedades">
+              <span>VARIEDADES</span>
+            </div>
+          </div>
+          <script>
+            $("#btn-variedades").click(()=>{
+              window.location.assign("/menuCarta")
+            });
+
+          </script> 
+
+          <div class="box-4">
+            <div class="btn btn-three" id="btn-disps">
+              <span>DISPENSACIONES</span>
+            </div>
+          </div> 
+
+          <script>
+            $("#btn-disps").click(()=>{
+              window.location.assign("/dispensaciones/")
+            });
+
+          </script>
+        
+          <div class="box-5">
+            <div class="btn btn-three" id="btn-dona">
+              <span>DONACIONES</span>
+            </div>
+          </div>
+          
+          <script>
+            $("#btn-dona").click(()=>{
+              window.location.assign("/donaciones")
+            });
+
+          </script>
+        
+          <div class="box-6">
+            <div class="btn btn-three" id="btn-barra">
+              <span>BARRA</span>
+            </div>
+          </div> 
+          <script>
+            $("#btn-barra").click(()=>{
+              window.location.assign("/barra")
+            });
+
+          </script> 
+</body>

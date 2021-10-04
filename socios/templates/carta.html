@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head lan="es">
+        <title>Carta</title>
+        <meta charset="utf-8">
+        <meta name= "viewport" content= "width=device-width , initial-scale=1 ,shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </head>
+    <body style="background-color: #FEFAE0;">
+        <div class="row justify-content-md-center mt-5">
+            {% load mathfilters %}
+            {% for variedad in variedades %}
+                {% if forloop.counter0|mod:4 == 0 %}
+                <div class="w-100"></div>
+                {% else %}
+                <div class="col-md-3">
+                    <div class="card mb-3">
+                        <div class="card-header bg-success text-white">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <h5>{{variedad.nombre}}</h5>
+                                </div>
+                                <div class="col-md-1">
+                                    <a href="/static/docs/variedadForm.html?id={{variedad.id}}"><button type="button" style="float: right;" class="btn btn-outline-light btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="/media/{{variedad.fotoYerbon}}" class="card-img-top">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h6 class="mb-0">Aportacion:</h6>
+                                </div>
+                                <div class="col-sm-8 text-secondary">
+                                    {{variedad.aportacion}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h6 class="mb-0">Genetica:</h6>
+                                </div>
+                                <div class="col-sm-8 text-secondary">
+                                    {{variedad.THC}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h6 class="mb-0">THC/CBD:</h6>
+                                </div>
+                                <div class="col-sm-8 text-secondary">
+                                    {{variedad.sativa}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h6 class="mb-0">Stock:</h6>
+                                </div>
+                                <div class="col-sm-8 text-secondary">
+                                    {{variedad.stock}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head lan="es">
+        <title>MenuCarta</title>
+        <meta charset="utf-8">
+        <meta name= "viewport" content= "width=device-width , initial-scale=1 ,
+                    shrink-to-fit=no">
+        <link rel= "stylesheet" href= "/static/docs/css/mainAso.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="box-1-menuCarta">
+            <div class="btn btn-three" id="carta-marihuana">
+              <span>MARIHUANA</span>
+            </div>
+          </div>
+
+          <script>
+            $("#carta-marihuana").click(()=>{
+              window.location.assign("/carta")
+            });
+
+          </script>
+           
+          <!-- Hover #2 -->
+          <div class="box-2-menuCarta" id="carta-polen">
+            <div class="btn btn-three">
+              <span>POLEN</span>
+            </div>
+          </div>
+
+          <script>
+            $("#carta-polen").click(()=>{
+              window.location.assign("/carta/?tipo=Polen")
+            });
+
+          </script>
+          
+          <!-- Hover #3 -->
+          <div class="box-3-menuCarta" id="carta-bho">
+            <div class="btn btn-three">
+              <span>BHO</span>
+            </div>
+          </div>
+
+          <script>
+            $("#carta-bho").click(()=>{
+              window.location.assign("/carta/?tipo=BHO")
+            });
+
+          </script>
+
+          <div class="box-4-menuCarta" id="btn-add-variedad">
+            <div class="btn btn-two">
+              <span>Añadir variedad</span>
+            </div>
+          </div>
+          <script>
+            $("#btn-add-variedad").click(()=>{
+              window.location.assign("/static/docs/variedadForm.html")
+            });
+
+          </script>
+    </body>
+</html>

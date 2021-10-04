@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Historial</title>
+        <meta charset="utf-8">
+        <meta name= "viewport" content= "width=device-width , initial-scale=1 ,shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel= "stylesheet" href= "/static/docs/css/header.css">
+        <script src="/static/docs/js/utils/include.js"></script>
+        <script src="/static/docs/js/utils/pagination.js"></script>
+    </head>
+    <body style="background-color: #FEFAE0;">
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-md-9">
+                <div class="row mt-5 mb-4"><div id="headerContainer"></div></div>
+                <div class="card mt-5">
+                    <div class="card-header bg-success border-success text-white">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <h5>Socio:</h5>
+                            </div>
+                            <div class="col">
+                                <h5>Consumible:</h5>
+                            </div>
+                            <div class="col">
+                                <h5>Uds:</h5>
+                            </div>
+                            <div class="col">
+                                <h5>Fecha:</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush" id="userListContainer">
+                            {% for obj in historial %}
+                            <li class="list-group-item"><div class="row">
+                                <div class="col-md-5">
+                                    <a href="/socio?nSocio={{obj.barra.socio.numeroSocio}}">{{obj.barra.socio.numeroSocio}}</a> {{obj.barra.socio.nombre}} {{obj.barra.socio.apellidos}}
+                                </div>
+                                <div class="col">
+                                    {{obj.bebida.nombre}}
+                                </div>
+                                <div class="col">
+                                    {{obj.unidades}}
+                                </div>
+                                <div class="col">
+                                    {{obj.barra.fecha}}
+                                </div>
+                            </div></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center" id="pagination">
+                </div>
+            </div>
+            <input type="text" id="ultima" value="{{ultima}}" style="display: none;">
+            </div>
+        </div>
+        <script>
+            include("/static/docs/pagination.html", "#pagination");
+            include("/static/docs/header.html", "#headerContainer");
+        </script>
+    </body>
+</html>

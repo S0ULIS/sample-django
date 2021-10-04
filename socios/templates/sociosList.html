@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head lang="es">
+        <title>Socios</title>
+        <meta charset="utf-8">
+        <meta name= "viewport" content= "width=device-width , initial-scale=1 ,shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel= "stylesheet" href= "/static/docs/css/header.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.min.js" integrity="sha256-RQLbEU539dpygNMsBGZlplus6CkitaLy0btTCHcULpI=" crossorigin="anonymous"></script>
+        <script src="/static/docs/js/utils/include.js"></script>
+        <script src="/static/docs/js/utils/pagination.js"></script>
+        <script src="/static/docs/js/utils/searchSocio.js"></script>
+    </head>
+    <body style="background-color: #FEFAE0;">
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-md-9">
+                <div id="headerContainer">
+                    
+                </div>
+                <div class="card border-success mb-5 mt-4" style="background-color:  #FEFAE0;">
+                    <div class="row justify-content-between m-2">
+                        <div class="col-md-2">
+                            <a href="/static/docs/socioForm.html"><button type="button" class="btn btn-light btn-outline-success ml-2">Nuevo socio<i class="fa fa-user-o" aria-hidden="true"></i></button></a>
+                        </div>
+                        <form class="col-md-4" style="float: right;"> <!--col-md-5-->
+                            <div class="input-group">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Buscar" list="names">
+                                <script>
+                                    let datalist = [{% for socio in totalSocios %} "{{socio.numeroSocio}} {{socio.nombre}} {{socio.apellidos}}", {%endfor%}""];
+                                    datalist.pop();
+                                    $('#searchInput').autocomplete({
+                                        lookup: datalist,
+                                        source: datalist,
+                                        onSelect: function(suggestion) {
+                                            let searchInput = $("#searchInput")[0];
+                                            let nSocio = suggestion.value.split(" ")[0];
+                                            let href = $("#hrefSocio")[0];
+                                            href.setAttribute("href", `/socio?nSocio=${nSocio}`);
+                                        },
+                                        search: function(oEvent, oUi) {
+                                            $('.ui-autocomplete').css("max-width", $('#searchInput').width()+30+'px');
+                                            let accentMap = {
+                                                "á": "a",
+                                                "ó": "o",
+                                                "é": "e",
+                                                "ú": "u",
+                                                "í": "i"
+                                            };
+                                            let normalize = function( term ) {
+                                                let ret = "";
+                                                for ( var i = 0; i < term.length; i++ ) {
+                                                    ret += accentMap[ term.charAt(i) ] || term.charAt(i);
+                                                }
+                                                return ret;
+                                            };
+ 
+                                            // get current input value
+                                            var sValue = $(oEvent.target).val();
+                                            // init new search array
+                                            var aSearch = [];
+                                            // for each element in the main array ...
+                                            $(datalist).each(function(iIndex, sElement) {
+                                                // ... if element starts with input value ...
+                                                if (isNaN(sValue)){
+                                                    let normElement = normalize(sElement.toLowerCase());
+                                                    let normValue = normalize(sValue.toLowerCase());
+                                                    if (normElement.includes(normValue)){
+                                                        console.log(normElement);
+                                                        // ... add element
+                                                        aSearch.push(sElement);
+                                                    }   
+                                                }
+                                                else{
+                                                    if (sElement.substr(0, sValue.length+1) == sValue+" ") {
+                                                        // ... add element
+                                                        aSearch.push(sElement);
+                                                    }
+                                                }
+                                            });
+                                            // change search array
+                                            $(this).autocomplete('option', 'source', aSearch);
+                                        },
+                                        create: function () {
+                                            $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                                                ul.addClass("list-group")
+                                                return $('<li>')
+                                                    .append(`<div class="row">${item.value}</div>`)
+                                                    .addClass("list-group-item")
+                                                    .appendTo(ul);
+                                            };
+                                        }
+                                    });
+                                </script>
+                                <a id="hrefSocio" href=""><button class="btn btn-success" type="button"><i class="fa fa-search" aria-hidden="true"></i></button></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header bg-success border-success text-white">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Numero:</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Nombre:</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush" id="userListContainer">
+                            {% for socio in socios %}
+                            <li class="list-group-item"><div class="row">
+                                <div class="col-md-4">
+                                    <a href="/socio?nSocio={{socio.numeroSocio}}">{{socio.numeroSocio}}</a>
+                                </div>
+                                <div class="col-md-4">
+                                    {{socio.nombre}} {{socio.apellidos}}
+                                </div>
+                                {% if socio.estado == "Expulsado" %}
+                                <div class="col-md-4"><i class="fa fa-circle" style="float: right; color: black;" aria-hidden="true"></i></div>
+                                {% elif socio.estado == "Avisado" %}
+                                <div class="col-md-4"><i class="fa fa-circle" style="float: right; color: #f0ad4e;" aria-hidden="true"></i></div>
+                                {% elif socio.estado == "No Renovado" %}
+                                <div class="col-md-4"><i class="fa fa-circle" style="float: right; color: #d9534f;" aria-hidden="true"></i></div>
+                                {% endif %}
+                            </div></li>
+                            {% endfor %}
+                          </ul>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center" id="pagination">
+                </div>
+            </div>
+            <input type="text" id="ultima" value="{{ultima}}" style="display: none;">
+        </div>
+        <script>
+            include("/static/docs/pagination.html", "#pagination");
+            include("/static/docs/header.html", "#headerContainer");
+        </script>
+    </body>
+</html>

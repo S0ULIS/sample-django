@@ -1,0 +1,13 @@
+
+
+
+
+<form action="" class="form-group" method="POST">
+    {% for config in configs %}
+    <div class="form-group-item">
+        <label for="{{config.key}}">{{config.key}}:</label>
+        <input type="text" name="{{config.key}}" value="{{config.value}}">
+    </div>
+    {% endfor %}
+
+</form>
